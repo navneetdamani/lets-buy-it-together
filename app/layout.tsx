@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import './communities.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://lets-buy-it-together-katy.chitra-daman-0792.chatgpt.site'),

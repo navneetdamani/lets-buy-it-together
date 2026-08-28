@@ -3,6 +3,7 @@
 import { FormEvent, useState } from 'react';
 
 const interests = ['Dryer vent cleaning', 'HVAC tune-up', 'Gutter cleaning', 'Pressure washing', 'Window cleaning', 'Pest control', 'Lawn & tree care', 'Home products'];
+const communities = ['Pine Mill Ranch', 'Anserra', 'Churchill Farms', 'Tamarron', 'Cinco Ranch', 'Silver Ranch', 'Jordan Ranch', 'Cane Island', 'Grand Lakes', 'Cross Creek Ranch', 'Firethorne', 'Elyson'];
 
 type FormStatus = { kind: 'idle' | 'loading' | 'success' | 'error'; message?: string };
 
@@ -54,7 +55,7 @@ export default function Home() {
 
       <section className="hero">
         <div className="hero-copy">
-          <span className="eyebrow"><i /> Now gathering neighbors in Katy, Texas</span>
+          <span className="eyebrow"><i /> Now gathering Katy-area communities</span>
           <h1>Local services cost less when neighbors book <em>together.</em></h1>
           <p>Join a neighborhood campaign, help unlock a lower group price, and hear first when the products and services you care about reach your area.</p>
           <div className="hero-actions"><a className="button primary" href="#campaigns">Explore campaigns <span>→</span></a><a className="button secondary" href="#start">Start a campaign</a></div>
@@ -73,6 +74,11 @@ export default function Home() {
             <small>Interest only—no payment. Final vendor, scope, and pricing will be shown before any commitment.</small>
           </div>
         </article>
+      </section>
+
+      <section className="communities-section" aria-labelledby="communities-title">
+        <div className="communities-copy"><span className="eyebrow">COMMUNITIES WE’RE GATHERING</span><h2 id="communities-title">Your neighborhood belongs in the group.</h2><p>We’re building campaign interest across Katy and nearby West Houston communities. Select your neighborhood when you join—or type another community and help us add it.</p></div>
+        <div className="community-list">{communities.map((community, index) => <span className={index < 7 ? 'featured' : ''} key={community}>⌂ {community}</span>)}</div>
       </section>
 
       <section className="campaign-section" id="campaigns">
@@ -113,7 +119,7 @@ export default function Home() {
           <div className="form-title"><span>1 minute</span><h3>Create your interest profile</h3></div>
           <div className="field-row"><label>First name<input name="firstName" autoComplete="given-name" required /></label><label>Last name<input name="lastName" autoComplete="family-name" required /></label></div>
           <div className="field-row"><label>Email<input type="email" name="email" autoComplete="email" required /></label><label>Mobile <em>for text alerts</em><input type="tel" name="mobile" autoComplete="tel" /></label></div>
-          <div className="field-row"><label>ZIP code<input name="zipCode" inputMode="numeric" pattern="[0-9]{5}" defaultValue="77494" required /></label><label>Neighborhood<input name="neighborhood" placeholder="e.g. Cinco Ranch" required /></label></div>
+          <div className="field-row"><label>ZIP code<input name="zipCode" inputMode="numeric" pattern="[0-9]{5}" defaultValue="77494" required /></label><label>Neighborhood<input name="neighborhood" list="katy-communities" placeholder="Select or type your community" required /></label></div>
           <div className="field-row"><label>I am a<select name="residentType" required defaultValue=""><option value="" disabled>Select one</option><option>Homeowner</option><option>Renter</option><option>Property manager</option></select></label><label>Notify me by<select name="preferredChannel" required defaultValue="email"><option value="email">Email</option><option value="sms">Text message</option></select></label></div>
           <fieldset><legend>What should we notify you about? <span>Choose all that apply</span></legend><div className="interest-grid">{interests.map((interest, index) => <label className="check" key={interest}><input type="checkbox" name="interests" value={interest} defaultChecked={index === 0} /><span>{interest}</span></label>)}</div></fieldset>
           <label className="consent"><input type="checkbox" required /> <span>I agree to receive campaign notifications based on my preferences. Message frequency varies; text/data rates may apply. I can unsubscribe anytime.</span></label>
@@ -127,7 +133,7 @@ export default function Home() {
         <div className="intro"><span className="eyebrow centered">HAVE A BETTER IDEA?</span><h2>Start the next neighborhood campaign.</h2><p>Request a product or service. We’ll check nearby interest, clarify the scope, and look for qualified suppliers before anything goes live.</p></div>
         <form className="campaign-form" onSubmit={submitCampaign}>
           <div className="field-row three"><label>Campaign name<input name="title" placeholder="e.g. Fall gutter cleaning" required /></label><label>Type<select name="campaignType" required><option>Home service</option><option>Product group buy</option><option>Neighborhood topic</option></select></label><label>Category<input name="category" placeholder="e.g. Exterior care" required /></label></div>
-          <div className="field-row three"><label>Neighborhood<input name="neighborhood" placeholder="e.g. Grand Lakes" required /></label><label>ZIP code<input name="zipCode" inputMode="numeric" pattern="[0-9]{5}" defaultValue="77494" required /></label><label>Ideal timing<select name="desiredTimeframe" required><option>Within 30 days</option><option>1–3 months</option><option>This season</option><option>Just exploring</option></select></label></div>
+          <div className="field-row three"><label>Neighborhood<input name="neighborhood" list="katy-communities" placeholder="Select or type your community" required /></label><label>ZIP code<input name="zipCode" inputMode="numeric" pattern="[0-9]{5}" defaultValue="77494" required /></label><label>Ideal timing<select name="desiredTimeframe" required><option>Within 30 days</option><option>1–3 months</option><option>This season</option><option>Just exploring</option></select></label></div>
           <div className="field-row three"><label>Neighbors to gather<input type="number" name="targetGroupSize" defaultValue="10" min="5" max="100" required /></label><label>Your name<input name="contactName" autoComplete="name" required /></label><label>Your email<input type="email" name="contactEmail" autoComplete="email" required /></label></div>
           <label>What should the campaign include?<textarea name="description" rows={4} placeholder="Describe the product or service, what a fair package should cover, and why neighbors may want it." required /></label>
           <div className="form-submit-row"><p>Submitting an idea does not obligate you or your neighbors to buy.</p><button className="button primary" disabled={campaignStatus.kind === 'loading'}>{campaignStatus.kind === 'loading' ? 'Submitting…' : 'Submit campaign idea'} <span>→</span></button></div>
@@ -142,7 +148,8 @@ export default function Home() {
 
       <section className="faq-section"><div className="intro"><span className="eyebrow centered">QUESTIONS, ANSWERED</span><h2>Good neighbors ask good questions.</h2></div><div className="faq-list"><details><summary>Does joining the beta cost anything?</summary><p>No. Creating an interest profile or proposing a campaign is free and does not create a purchase obligation.</p></details><details><summary>Am I committing to the Dryer Vent campaign?</summary><p>Not yet. This founding campaign is gathering demand. You will see the selected provider, exact scope, eligibility, final price tiers, and terms before any commitment.</p></details><details><summary>How will you use my information?</summary><p>We use your location and interests to match relevant campaigns, and your chosen channel to notify you. Exact addresses are never displayed publicly.</p></details><details><summary>Can products be proposed too?</summary><p>Yes. The beta accepts local service, product group-buy, and neighborhood-topic ideas for review.</p></details></div></section>
 
-      <footer><div className="brand footer-brand"><span className="brand-mark">L</span><span>Let’s Buy It <strong>Together</strong></span></div><p>A beta neighborhood group-buying marketplace for Katy, Texas.</p><div className="footer-links"><a href="#campaigns">Campaigns</a><a href="#join">Notifications</a><a href="#start">Start a campaign</a></div><div className="legal"><span>© 2026 Idea 2 Project Consulting LLC. All rights reserved.</span><span>Owner and operator: Idea 2 Project Consulting LLC</span></div></footer>
+      <datalist id="katy-communities">{communities.map((community) => <option value={community} key={community} />)}</datalist>
+      <footer><div className="brand footer-brand"><span className="brand-mark">L</span><span>Let’s Buy It <strong>Together</strong></span></div><p>Serving Pine Mill Ranch, Anserra, Churchill Farms, Tamarron, Cinco Ranch, Silver Ranch, Jordan Ranch, and surrounding Katy communities.</p><div className="footer-links"><a href="#campaigns">Campaigns</a><a href="#join">Notifications</a><a href="#start">Start a campaign</a></div><div className="legal"><span>© 2026 Idea 2 Project Consulting LLC. All rights reserved.</span><span>Owner and operator: Idea 2 Project Consulting LLC</span></div></footer>
     </main>
   );
 }
