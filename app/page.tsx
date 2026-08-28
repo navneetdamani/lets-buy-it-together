@@ -59,7 +59,7 @@ export default function Home() {
           <h1>Local services cost less when neighbors book <em>together.</em></h1>
           <p>Join a neighborhood campaign, help unlock a lower group price, and hear first when the products and services you care about reach your area.</p>
           <div className="hero-actions"><a className="button primary" href="#campaigns">Explore campaigns <span>→</span></a><a className="button secondary" href="#start">Start a campaign</a></div>
-          <div className="proof-row"><span>✓ Free to express interest</span><span>✓ Neighborhood-level matching</span><span>✓ Addresses stay private</span></div>
+          <div className="proof-row"><span>✓ Free to express interest</span><span>✓ Vendor-direct payment</span><span>✓ Addresses stay private</span></div>
         </div>
 
         <article className="hero-card" aria-label="Featured Dryer Vent Cleaning campaign">
@@ -71,7 +71,7 @@ export default function Home() {
             <div className="progress-label"><span><b>14 neighbors</b> interested</span><span>20 targets the $99 tier</span></div>
             <div className="progress"><i /></div>
             <a className="button primary full" href="#join">Count me in <span>→</span></a>
-            <small>Interest only—no payment. Final vendor, scope, and pricing will be shown before any commitment.</small>
+            <small>Interest only—no payment. After final commitment, the selected vendor handles booking and payment directly.</small>
           </div>
         </article>
       </section>
@@ -99,6 +99,7 @@ export default function Home() {
             <div className="tier active"><span>20 homes</span><strong>$99</strong></div>
             <div className="tier"><span>35 homes</span><strong>$79</strong></div>
             <small>Illustrative beta pricing, subject to vendor confirmation and property eligibility.</small>
+            <div className="vendor-payment-note"><b>Vendor-direct payment</b><p>Let’s Buy It Together does not collect deposits or store card details. Once the campaign activates, the selected vendor sends each participating resident its booking and payment instructions.</p></div>
           </aside>
         </div>
       </section>
@@ -109,7 +110,7 @@ export default function Home() {
           <article><b>1</b><h3>Tell us what matters</h3><p>Share your area and the services or products you want to hear about.</p></article>
           <article><b>2</b><h3>Join a local campaign</h3><p>Express interest and invite neighbors—without exposing your address publicly.</p></article>
           <article><b>3</b><h3>Unlock the group price</h3><p>More eligible homes unlock better published tiers for the whole group.</p></article>
-          <article><b>4</b><h3>Review before you commit</h3><p>See the provider, scope, dates, final price, and terms before paying.</p></article>
+          <article><b>4</b><h3>Book with the vendor</h3><p>Review the final offer, then pay the selected vendor directly using its booking process.</p></article>
         </div>
       </section>
 
@@ -143,10 +144,10 @@ export default function Home() {
 
       <section className="trust-section" id="trust">
         <div><span className="eyebrow light">BUILT FOR TRUST</span><h2>Clear offers. Private homes. No mystery pricing.</h2></div>
-        <div className="trust-list"><article><span>⌂</span><div><h3>Your address stays private</h3><p>Campaign pages show only the neighborhood or service zone.</p></div></article><article><span>✓</span><div><h3>Terms before commitment</h3><p>Provider, scope, dates, price, and cancellation rules come first.</p></div></article><article><span>↘</span><div><h3>One price for the group</h3><p>Everyone receives the lowest published tier the campaign reaches.</p></div></article></div>
+        <div className="trust-list"><article><span>⌂</span><div><h3>Your address stays private</h3><p>Campaign pages show only the neighborhood or service zone.</p></div></article><article><span>✓</span><div><h3>Terms before commitment</h3><p>Provider, scope, dates, price, and cancellation rules come first.</p></div></article><article><span>↘</span><div><h3>One price for the group</h3><p>Everyone receives the lowest published tier the campaign reaches.</p></div></article><article><span>$</span><div><h3>Pay the vendor directly</h3><p>The platform does not take payment. The vendor invoices residents and remains responsible for payment, refunds, and receipts.</p></div></article></div>
       </section>
 
-      <section className="faq-section"><div className="intro"><span className="eyebrow centered">QUESTIONS, ANSWERED</span><h2>Good neighbors ask good questions.</h2></div><div className="faq-list"><details><summary>Does joining the beta cost anything?</summary><p>No. Creating an interest profile or proposing a campaign is free and does not create a purchase obligation.</p></details><details><summary>Am I committing to the Dryer Vent campaign?</summary><p>Not yet. This founding campaign is gathering demand. You will see the selected provider, exact scope, eligibility, final price tiers, and terms before any commitment.</p></details><details><summary>How will you use my information?</summary><p>We use your location and interests to match relevant campaigns, and your chosen channel to notify you. Exact addresses are never displayed publicly.</p></details><details><summary>Can products be proposed too?</summary><p>Yes. The beta accepts local service, product group-buy, and neighborhood-topic ideas for review.</p></details></div></section>
+      <section className="faq-section"><div className="intro"><span className="eyebrow centered">QUESTIONS, ANSWERED</span><h2>Good neighbors ask good questions.</h2></div><div className="faq-list"><details><summary>Does joining the beta cost anything?</summary><p>No. Creating an interest profile or proposing a campaign is free and does not create a purchase obligation.</p></details><details><summary>Who takes my payment?</summary><p>The selected vendor takes payment directly after you review and accept the final campaign offer. Let’s Buy It Together does not collect deposits, process cards, or hold resident funds during the beta.</p></details><details><summary>Who handles receipts and refunds?</summary><p>The vendor is responsible for its invoice, payment receipt, cancellation policy, and any refund. Those terms will be presented before final commitment.</p></details><details><summary>Am I committing to the Dryer Vent campaign?</summary><p>Not yet. This founding campaign is gathering demand. You will see the selected provider, exact scope, eligibility, final price tiers, and terms before any commitment.</p></details><details><summary>How will you use my information?</summary><p>We use your location and interests to match relevant campaigns, and your chosen channel to notify you. Exact addresses are never displayed publicly.</p></details><details><summary>Can products be proposed too?</summary><p>Yes. The beta accepts local service, product group-buy, and neighborhood-topic ideas for review.</p></details></div></section>
 
       <datalist id="katy-communities">{communities.map((community) => <option value={community} key={community} />)}</datalist>
       <footer><div className="brand footer-brand"><span className="brand-mark">L</span><span>Let’s Buy It <strong>Together</strong></span></div><p>Serving Pine Mill Ranch, Anserra, Churchill Farms, Tamarron, Cinco Ranch, Silver Ranch, Jordan Ranch, and surrounding Katy communities.</p><div className="footer-links"><a href="#campaigns">Campaigns</a><a href="#join">Notifications</a><a href="#start">Start a campaign</a></div><div className="legal"><span>© 2026 Idea 2 Project Consulting LLC. All rights reserved.</span><span>Owner and operator: Idea 2 Project Consulting LLC</span></div></footer>
