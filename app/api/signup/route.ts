@@ -21,17 +21,30 @@ export async function POST(request: Request) {
 
   const db = getDb();
   await ensureSchema(db);
-  const existing = await db.prepare('SELECT id FROM signups WHERE email = ? AND zip_code = ?').bind(email, zipCode).first<{ id: number }>();
-  let signupId = existing?.id;
-  if (signupId) {
-    await db.prepare(`UPDATE signups SET first_name=?, last_name=?, mobile=?, neighborhood=?, resident_type=?, preferred_channel=?, email_consent=?, sms_consent=? WHERE id=?`)
-      .bind(firstName, lastName, mobile, neighborhood, residentType, preferredChannel, 1, preferredChannel === 'sms' ? 1 : 0, signupId).run();
-    await db.prepare('DELETE FROM signup_interests WHERE signup_id = ?').bind(signupId).run();
-  } else {
-    const result = await db.prepare(`INSERT INTO signups (first_name,last_name,email,mobile,zip_code,neighborhood,resident_type,preferred_channel,email_consent,sms_consent) VALUES (?,?,?,?,?,?,?,?,?,?)`)
-      .bind(firstName, lastName, email, mobile, zipCode, neighborhood, residentType, preferredChannel, 1, preferredChannel === 'sms' ? 1 : 0).run();
-    signupId = Number(result.meta.last_row_id);
+  const client = await db.connect();
+  try {
+    await client.query('BEGIN');
+    const result = await client.query<{ id: string }>(
+      `INSERT INTO signups (first_name,last_name,email,mobile,zip_code,neighborhood,resident_type,preferred_channel,email_consent,sms_consent)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,TRUE,$9)
+       ON CONFLICT (email, zip_code) DO UPDATE SET
+         first_name=EXCLUDED.first_name, last_name=EXCLUDED.last_name, mobile=EXCLUDED.mobile,
+         neighborhood=EXCLUDED.neighborhood, resident_type=EXCLUDED.resident_type,
+         preferred_channel=EXCLUDED.preferred_channel, email_consent=TRUE, sms_consent=EXCLUDED.sms_consent
+       RETURNING id`,
+      [firstName, lastName, email, mobile, zipCode, neighborhood, residentType, preferredChannel, preferredChannel === 'sms'],
+    );
+    const signupId = result.rows[0].id;
+    await client.query('DELETE FROM signup_interests WHERE signup_id = $1', [signupId]);
+    for (const interest of interests) {
+      await client.query('INSERT INTO signup_interests (signup_id, interest) VALUES ($1, $2)', [signupId, interest]);
+    }
+    await client.query('COMMIT');
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
+  } finally {
+    client.release();
   }
-  await db.batch(interests.map((interest) => db.prepare('INSERT INTO signup_interests (signup_id, interest) VALUES (?, ?)').bind(signupId, interest)));
   return Response.json({ ok: true });
 }

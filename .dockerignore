@@ -1,0 +1,7 @@
+node_modules
+.next
+.vinext
+.git
+.env*
+npm-debug.log*
+pnpm-debug.log*

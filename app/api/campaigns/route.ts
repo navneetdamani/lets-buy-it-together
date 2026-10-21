@@ -19,7 +19,10 @@ export async function POST(request: Request) {
   }
   const db = getDb();
   await ensureSchema(db);
-  await db.prepare(`INSERT INTO campaign_requests (title,campaign_type,category,neighborhood,zip_code,desired_timeframe,target_group_size,description,contact_name,contact_email) VALUES (?,?,?,?,?,?,?,?,?,?)`)
-    .bind(values.title, values.campaignType, values.category, values.neighborhood, values.zipCode, values.desiredTimeframe, values.targetGroupSize, values.description, values.contactName, values.contactEmail).run();
+  await db.query(
+    `INSERT INTO campaign_requests (title,campaign_type,category,neighborhood,zip_code,desired_timeframe,target_group_size,description,contact_name,contact_email)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+    [values.title, values.campaignType, values.category, values.neighborhood, values.zipCode, values.desiredTimeframe, values.targetGroupSize, values.description, values.contactName, values.contactEmail],
+  );
   return Response.json({ ok: true });
 }

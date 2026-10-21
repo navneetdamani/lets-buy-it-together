@@ -1,10 +1,24 @@
-import { env } from 'cloudflare:workers';
+import { Pool, type PoolClient } from 'pg';
 import { schemaStatements } from '@/db/schema';
 
-export function getDb(): D1Database {
-  return (env as unknown as { DB: D1Database }).DB;
+const globalForDb = globalThis as unknown as { letsBuyPool?: Pool; letsBuySchema?: Promise<void> };
+
+export function getDb(): Pool {
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL is not configured.');
+  }
+  globalForDb.letsBuyPool ??= new Pool({
+    connectionString: process.env.DATABASE_URL,
+    max: 10,
+  });
+  return globalForDb.letsBuyPool;
 }
 
-export async function ensureSchema(db: D1Database) {
-  await db.batch(schemaStatements.map((statement) => db.prepare(statement)));
+export async function ensureSchema(db: Pool | PoolClient) {
+  globalForDb.letsBuySchema ??= (async () => {
+    for (const statement of schemaStatements) {
+      await db.query(statement);
+    }
+  })();
+  await globalForDb.letsBuySchema;
 }
