@@ -20,4 +20,4 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 EXPOSE 10000
-CMD ["pnpm", "start", "--", "-p", "10000"]
+CMD ["pnpm", "exec", "next", "start", "-p", "10000"]
