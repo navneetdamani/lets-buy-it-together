@@ -1,3 +1,6 @@
+CREATE SCHEMA IF NOT EXISTS lets_buy_it_together;
+SET search_path TO lets_buy_it_together;
+
 CREATE TABLE IF NOT EXISTS signups (
   id BIGSERIAL PRIMARY KEY,
   first_name TEXT NOT NULL,

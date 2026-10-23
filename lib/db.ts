@@ -9,6 +9,7 @@ export function getDb(): Pool {
   }
   globalForDb.letsBuyPool ??= new Pool({
     connectionString: process.env.DATABASE_URL,
+    options: '-c search_path=lets_buy_it_together',
     max: 10,
   });
   return globalForDb.letsBuyPool;
